@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -27,7 +28,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+<ScrollArea className="h-[calc(100vh)] w-full overflow-y-auto">
+  <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
+    {children}
+  </main>
+  {/* You can include this if using ShadCN's ScrollBar, otherwise it's optional */}
+  <ScrollBar orientation="vertical" className="invisible" />
+</ScrollArea>
+
       </body>
     </html>
   );
