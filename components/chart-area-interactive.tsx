@@ -212,7 +212,7 @@ export function ChartAreaInteractive() {
             />
             <ChartTooltip
               cursor={false}
-              defaultIndex={isMobile ? -1 : 10}
+              defaultIndex={isMobile ? -1 : Math.max(10, Math.floor(Math.random() * (chartData.length)))}
               content={
                 <ChartTooltipContent
                   labelFormatter={(value) =>
