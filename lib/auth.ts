@@ -1,19 +1,25 @@
-import { getCookie, setCookie, deleteCookie } from 'cookies-next';
+export const isAuthenticated = (): boolean => {
+  if (typeof window !== 'undefined') {
+    return !!localStorage.getItem('authUser')
+  }
+  return false
+}
 
-export const loginUser = (email: string) => {
-  setCookie('isAuthenticated', true, { maxAge: 60 * 60 * 24 * 7 }); // 7 days
-  setCookie('userEmail', email);
-};
+export const login = (email: string, name: string) => {
+  localStorage.setItem('authUser', JSON.stringify({ email, name }))
+}
 
-export const logoutUser = () => {
-  deleteCookie('isAuthenticated');
-  deleteCookie('userEmail');
-};
+export const signup = (email: string, name: string) => {
+  localStorage.setItem('authUser', JSON.stringify({ email, name }))
+}
+export const logout = () => {
+  localStorage.removeItem('authUser')
+}
 
-export const isAuthenticated = () => {
-  return getCookie('isAuthenticated') === 'true';
-};
-
-export const getCurrentUserEmail = () => {
-  return getCookie('userEmail') || '';
-};
+export const getAuthUser = () => {
+  if (typeof window !== 'undefined') {
+    const user = localStorage.getItem('authUser')
+    return user ? JSON.parse(user) : null
+  }
+  return null
+}
