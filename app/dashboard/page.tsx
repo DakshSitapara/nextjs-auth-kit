@@ -61,45 +61,50 @@ export default function DashboardPage() {
     )
   }
 
-  return (
-    <div className="flex flex-col min-h-screen bg-muted text-foreground">
-      <nav className="w-full bg-white dark:bg-zinc-900 shadow px-6 py-4 flex justify-between items-center border-b">
-        <h1 className="text-xl font-semibold">Dashboard</h1>
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-muted-foreground hidden sm:inline">{user.name}</span>
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2">
-                  <LogOut className="h-4 w-4" />
-                  Logout
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you sure you want to log out?</AlertDialogTitle>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleLogout} className="bg-red-500 text-white hover:bg-white/90 hover:text-red-500 hover:shadow-red-500/50">
-                    Yes, Logout
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+return (
+  <div className="flex flex-col h-screen overflow-hidden bg-muted text-foreground">
+    <nav className="fixed top-0 left-0 w-full bg-white dark:bg-zinc-900 shadow px-6 py-4 flex justify-between items-center border-b z-50">
+      <h1 className="text-xl font-semibold">Dashboard</h1>
+      <div className="flex items-center gap-4">
+        <span className="text-sm text-muted-foreground hidden sm:inline">{user.name}</span>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="outline" size="sm" className="gap-2">
+              <LogOut className="h-4 w-4" />
+              Logout
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you sure you want to log out?</AlertDialogTitle>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={handleLogout}
+                className="bg-red-500 text-white hover:bg-white/90 hover:text-red-500 hover:shadow-red-500/50"
+              >
+                Yes, Logout
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </div>
+    </nav>
+
+    <main className="flex-1 overflow-y-auto pt-20 px-6">
+      <div className="max-w mx-auto">
+        <h2 className="text-2xl font-semibold mb-6">Welcome, {user.name}!</h2>
+        <SectionCards />
+        <div className="mt-8">
+          <ChartAreaInteractive />
         </div>
-      </nav>
-      <main className="flex-1 p-6">
-        <div className="max-w-10xl mx-auto">
-          <h2 className="text-2xl font-semibold mb-6">Welcome, {user.name}!</h2>
-          <SectionCards />
-          <div className="mt-8">
-            <ChartAreaInteractive />
-          </div>
-        </div>
-      </main>
-      <footer className="w-full bg-white dark:bg-zinc-900 shadow px-6 py-4 text-center text-sm text-muted-foreground">
-        &copy; {new Date().getFullYear()} Your Company. All rights reserved.
-      </footer>
-    </div>
-  )
+      </div>
+    </main>
+
+    <footer className="w-full bg-white dark:bg-zinc-900 shadow px-6 py-4 text-center text-sm text-muted-foreground *:[a]:hover:text-primary text-balance *:[a]:underline *:[a]:underline-offset-4 *:[a]:text-blue-500">
+      &copy; {new Date().getFullYear()}. All rights reserved. you agree to our <a href="#">Terms of Service</a>{" "} and <a href="#">Privacy Policy</a>.
+    </footer>
+  </div>
+)
 }
