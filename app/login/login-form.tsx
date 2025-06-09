@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { AuthService } from '@/lib/auth'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -24,12 +24,16 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
     error: null,
     isLoading: false,
   })
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true)
 
-  useEffect(() => {
-    if (AuthService.isAuthenticated()) {
-      router.replace('/dashboard')
-    }
-  }, [router])
+  if (typeof window !== 'undefined' && AuthService.isAuthenticated()) {
+    router.replace('/dashboard')
+    return null 
+  }
+
+  if (isCheckingAuth) {
+    setIsCheckingAuth(false)
+  }
 
   const validateForm = (): boolean => {
     if (!formState.email || !formState.password) {
@@ -66,6 +70,14 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 
   const handleChange = (field: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormState((prev) => ({ ...prev, [field]: e.target.value, error: null }))
+  }
+
+  if (isCheckingAuth) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary" />
+      </div>
+    )
   }
 
   return (
@@ -109,7 +121,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{' '}
+              Don't have an account?{' '}
               <a href="/signup" className="underline underline-offset-4">
                 Sign up
               </a>
