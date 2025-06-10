@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { AuthService } from '@/lib/auth'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -26,15 +26,14 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
   })
   const [isCheckingAuth, setIsCheckingAuth] = useState(true)
 
-  if (typeof window !== 'undefined' && AuthService.isAuthenticated()) {
-    router.replace('/dashboard')
-    return null 
-  }
-
-  if (isCheckingAuth) {
-    setIsCheckingAuth(false)
-  }
-
+  useEffect(() => {
+    if (typeof window !== 'undefined' && AuthService.isAuthenticated()) {
+      router.replace('/dashboard')
+    } else {
+      setIsCheckingAuth(false)
+    }
+  }, [router])
+  
   const validateForm = (): boolean => {
     if (!formState.email || !formState.password) {
       setFormState((prev) => ({ ...prev, error: 'Please fill in all fields' }))
