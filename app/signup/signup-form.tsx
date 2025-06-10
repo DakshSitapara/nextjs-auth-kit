@@ -46,8 +46,8 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
       setFormState((prev) => ({ ...prev, error: 'Please enter a valid email' }))
       return false
     }
-    if (formState.password.length < 8) {
-      setFormState((prev) => ({ ...prev, error: 'Password must be at least 8 characters' }))
+    if (formState.password.length < 6) {
+      setFormState((prev) => ({ ...prev, error: 'Password must be at least 6 characters' }))
       return false
     }
     return true
